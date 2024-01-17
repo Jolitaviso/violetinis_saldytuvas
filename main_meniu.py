@@ -1,4 +1,5 @@
 from saldytuviukas.fridge import Fridge
+import json
 
 def main():
     fridge = Fridge()
@@ -16,6 +17,7 @@ def main():
         choice = input("Pasirinkite: ")
 
         if choice == "0":
+            fridge.save()
             break
         elif choice == "1":
             product_name = input("Kokį produktą norite pridėti?: ")
