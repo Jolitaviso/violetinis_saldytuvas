@@ -1,9 +1,27 @@
-from product import Product
-from recipe import Recipe
+from .product import Product
+from .recipe import Recipe
+import json
+
 
 class Fridge:
     def __init__(self):
         self.contents = []
+        with open('fridge.json', 'r', encoding='utf-8') as fridge_file:
+            contents = json.load(fridge_file)
+        if contents and len(contents) > 0:
+            for product_dict in contents:
+                self.contents.append(Product(product_dict['name'], product_dict['quantity'], product_dict['unit of measurement']))
+
+    def save(self):
+        with open('fridge.json', 'w', encoding='utf-8') as fridge_file:
+            contents = []
+            for product in self.contents:
+                contents.append({
+                    'name': product.name,
+                    'quantity': product.quantity,
+                    'unit of measurement': product.unit_of_measurement
+                })
+            json.dump(contents, fridge_file)
 
     def check_product(self, product_name:str) -> (int, Product):
         for product_id, product in enumerate(self.contents):
